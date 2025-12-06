@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
-export class PaginationResult<T> {
+export class PaginationResultDto<T> {
   @ApiProperty()
   entries: T[];
 

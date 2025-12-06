@@ -49,7 +49,10 @@ export class User {
 
   public static create(args: UserArgs): { user: User } {
     const user = new User(args);
-
     return { user };
+  }
+
+  public isDeleted(): boolean {
+    return Boolean(this.deletedAt);
   }
 }

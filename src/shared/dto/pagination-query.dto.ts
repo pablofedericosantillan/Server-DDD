@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsInt, IsOptional, Max, Min } from 'class-validator';
 
-export class PaginationQuery {
+export class PaginationQueryDto {
   /**
    * The number of items per page.
    * @example 10

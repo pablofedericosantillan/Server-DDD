@@ -1,2 +1,1 @@
-// TODO: update this query
-export * from './list-bookings.query';
+export * from './user/get-all-users.query';
