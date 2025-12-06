@@ -34,3 +34,11 @@ export class UserDocument extends Document {
 export const UserModelName = 'User';
 
 export const UserSchema = SchemaFactory.createForClass(UserDocument);
+
+UserSchema.index(
+  { email: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { deletedAt: null },
+  },
+);

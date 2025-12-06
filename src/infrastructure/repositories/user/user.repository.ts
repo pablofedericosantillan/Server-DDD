@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model, Types } from 'mongoose';
 import { IUserRepository } from 'src/application';
@@ -24,23 +25,28 @@ export class UserRepository implements IUserRepository {
   }
 
   public async save(user: User): Promise<User> {
-    const doc = await this.model.findOneAndReplace(
-      { _id: new Types.ObjectId(user.id) },
-      {
-        email: user.email,
-        pwd: user.pwd,
-        createdAt: user.updatedAt,
-        updatedAt: user.updatedAt,
-        deletedAt: user.deletedAt ?? undefined,
-      },
-      {
-        upsert: true,
-        new: true,
-        lean: true,
-      },
-    );
+    try {
+      const doc = await this.model.findOneAndReplace(
+        { _id: new Types.ObjectId(user.id) },
+        {
+          email: user.email,
+          pwd: user.pwd,
+          createdAt: user.updatedAt,
+          updatedAt: user.updatedAt,
+          deletedAt: user.deletedAt ?? undefined,
+        },
+        {
+          upsert: true,
+          new: true,
+          lean: true,
+        },
+      );
 
-    return this.toDomainEntity(doc as unknown as UserDocument);
+      return this.toDomainEntity(doc as unknown as UserDocument);
+    } catch (e) {
+      if (e.code === 11000) throw new ConflictException('Item already exist.');
+      throw e;
+    }
   }
 
   public async getAll(
@@ -50,7 +56,7 @@ export class UserRepository implements IUserRepository {
       deletedAt: undefined,
     };
 
-    const docs = await this.model // check this
+    const docs = await this.model
       .aggregate<UserDocument>([
         { $match: match },
         { $sort: { 'created.at': -1 } },
@@ -63,7 +69,7 @@ export class UserRepository implements IUserRepository {
 
     if (filters.count) {
       const countResult = await this.model
-        .aggregate<{ // check this
+        .aggregate<{
           count: number;
         }>([{ $match: match }, { $count: 'count' }])
         .exec();

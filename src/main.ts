@@ -10,6 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   const logger = app.get(Logger);
+  app.useLogger(logger);
 
   // Swagger Documentation
   const document = makeOpenApiDocument(app);

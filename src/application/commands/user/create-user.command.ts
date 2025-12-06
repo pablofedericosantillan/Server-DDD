@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { Types } from 'mongoose';
 import {
   IUserRepository,
@@ -21,6 +21,8 @@ export class CreateUserCommand {
 export class CreateUserCommandHandler
   implements CommandHandler<CreateUserCommand>
 {
+  private readonly logger = new Logger(CreateUserCommandHandler.name);
+
   constructor(
     @Inject(USER_REPOSITORY_TOKEN)
     // @ts-ignore
@@ -28,6 +30,11 @@ export class CreateUserCommandHandler
   ) {}
 
   public async handle(cmd: CreateUserCommand): Promise<CommandResult> {
+    this.logger.log({
+      msg: 'CreateUserCommandHandler handle',
+      dataInput: cmd,
+    });
+
     const {
       data: { email, pwd },
     } = cmd;

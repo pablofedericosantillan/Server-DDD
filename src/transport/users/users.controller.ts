@@ -1,16 +1,22 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import {
   CreateUserCommand,
   CreateUserCommandHandler,
   CreateUserRequestDto,
+  GetAllUserQueryResult,
+  GetAllUsersQuery,
+  GetAllUsersQueryHandler,
+  GetAllUsersRequestDto,
 } from 'src/application';
+import { PaginationQuery } from 'src/shared';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly createUserCommandHandler: CreateUserCommandHandler,
+    private readonly getAllUsersQueryHandler: GetAllUsersQueryHandler,
   ) {}
 
   @Post()
@@ -23,13 +29,15 @@ export class UsersController {
     return this.createUserCommandHandler.handle(command);
   }
 
-  // @Get()
-  // @ApiOperation({
-  //   summary: 'Get users',
-  // })
-  // async getAll(
-  //   @Query() dto: Dtos.GetAllUsersRequest,
-  // ): Promise<Dtos.GetAllUsersResponse> {
-  //   return this.userGetService.getAll(dto);
-  // }
+  @Get()
+  @ApiOperation({
+    summary: 'Get users',
+  })
+  async getAll(
+    @Query() dto: GetAllUsersRequestDto,
+  ): Promise<GetAllUserQueryResult> {
+    const query = new GetAllUsersQuery(dto as PaginationQuery);
+
+    return this.getAllUsersQueryHandler.handle(query);
+  }
 }

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsInt, IsOptional, Max, Min } from 'class-validator';
+import { CastToBoolean } from './cast-to-boolean.dto';
 
 export class PaginationQueryDto {
   /**
@@ -26,5 +27,6 @@ export class PaginationQueryDto {
    */
   @IsOptional()
   @IsBoolean()
+  @CastToBoolean()
   count?: boolean = false;
 }

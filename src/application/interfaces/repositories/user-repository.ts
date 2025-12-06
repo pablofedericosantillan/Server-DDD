@@ -21,5 +21,7 @@ export interface IUserRepository {
    * Retrieves users with pagination.
    * Returns a paginated list of users ordered by creation date (newest first).
    */
-  getAll(filters: PaginationQuery);
+  getAll(
+    filters: PaginationQuery,
+  ): Promise<{ items: Array<User>; totalCount: number | undefined }>;
 }

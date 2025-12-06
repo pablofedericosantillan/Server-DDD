@@ -13,7 +13,9 @@ type ObjectKeyPaths<
     : K extends string | number
       ?
           | `${Starting}${K}`
-          | (T[K] extends object ? `${`${Starting}${K}`}${ObjectKeyPaths<T[K], Delimiter>}` : never)
+          | (T[K] extends object
+              ? `${`${Starting}${K}`}${ObjectKeyPaths<T[K], Delimiter>}`
+              : never)
       : never;
 
 type Get<T, K> = K extends `${infer A extends keyof T & string}.${infer B}`
@@ -23,9 +25,11 @@ type Get<T, K> = K extends `${infer A extends keyof T & string}.${infer B}`
     : never;
 
 @Injectable()
-export class ConfigServiceBase<T extends object> extends NestConfigService<T, true> {
+export class ConfigServiceBase<T extends object> extends NestConfigService<
+  T,
+  true
+> {
   get<P extends ObjectKeyPaths<T>>(path: P): Get<T, P> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return super.get(path as any, { infer: true });
   }
 }
