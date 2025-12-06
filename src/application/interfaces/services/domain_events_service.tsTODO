@@ -1,0 +1,25 @@
+import { DomainEvent } from '@Domain';
+import { ITransactionSession } from '../transaction_manager';
+
+/**
+ * Dependency injection token for the Domain Events Service.
+ * Used to register and inject the domain events service implementation.
+ */
+export const DOMAIN_EVENTS_SERVICE_TOKEN = 'DOMAIN_EVENTS_SERVICE_TOKEN';
+
+/**
+ * Interface for domain event publishing operations.
+ * Provides methods to publish domain events to external systems (e.g., message queues).
+ */
+export interface IDomainEventsService {
+  /**
+   * Publishes a domain event to the outbox for eventual delivery.
+   * The event will be stored in the outbox collection and processed asynchronously.
+   *
+   * @param events - The domain events to publish
+   * @param session - Transaction session for atomic operations with the event storage
+   * @returns Promise that resolves to the event ID or undefined if producer is disabled
+   * @throws {DomainValidationError} When the event data is invalid
+   */
+  save(events: Array<DomainEvent>, session: ITransactionSession): Promise<Array<string>>;
+}

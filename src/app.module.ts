@@ -1,11 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/require-await */
 import { Module } from '@nestjs/common';
-import { HealthModule } from './controllers/health/health.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './controllers/users/users.module';
-import { AppConfigModule, AppConfigService } from './common/app-config';
-import { createMongooseOptions } from './config/mongo/mongoose-config';
+import { AppConfigModule, AppConfigService } from './shared';
+import { createMongooseOptions } from '../src_DDD/transport/config/mongo/mongoose-config';
+// Controllers Modules
+import { HealthModule } from '../src/transport/health/health.module';
+import { UserModule } from '../src/transport/users/users.module';
 
 @Module({
   imports: [

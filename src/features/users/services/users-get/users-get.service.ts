@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from '../../users.repository';
-import { GetAllUsersRequest, GetAllUsersResponse } from '../../dtos';
+import { GetAllUsersRequest, GetAllUsersResponse } from '../../../../application/commands/user/dtos';
 import { UserDto } from '../../dtos/get-user.dto';
 import { plainToInstance } from 'class-transformer';
 
