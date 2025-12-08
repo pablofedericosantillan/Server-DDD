@@ -4,12 +4,13 @@ import {
   CreateUserCommand,
   CreateUserCommandHandler,
   CreateUserRequestDto,
-  GetAllUserQueryResult,
   GetAllUsersQuery,
   GetAllUsersQueryHandler,
   GetAllUsersRequestDto,
+  GetAllUsersResponseDto,
 } from 'src/application';
 import { PaginationQuery } from 'src/shared';
+import { UserSerializer } from './user.serializer';
 
 @ApiTags('Users')
 @Controller('users')
@@ -35,9 +36,16 @@ export class UsersController {
   })
   async getAll(
     @Query() dto: GetAllUsersRequestDto,
-  ): Promise<GetAllUserQueryResult> {
+  ): Promise<GetAllUsersResponseDto> {
     const query = new GetAllUsersQuery(dto as PaginationQuery);
 
-    return this.getAllUsersQueryHandler.handle(query);
+    const result = await this.getAllUsersQueryHandler.handle(query);
+
+    return {
+      entries: result.entries.map((f) => UserSerializer.toDto(f)),
+      limit: result.limit,
+      offset: result.offset,
+      totalCount: result.totalCount,
+    };
   }
 }
