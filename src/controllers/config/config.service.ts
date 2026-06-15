@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-import { EnvConfig } from './config.dto';
+import { EnvConfig } from './index';
 
 type ObjectKeyPaths<
   T extends object,

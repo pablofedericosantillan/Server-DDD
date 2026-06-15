@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
-import { EnvConfig } from './config.dto';
+import { EnvConfig } from './env.config';
 import { ConfigService } from './config.service';
 
 const validate = (config: typeof process.env) => {

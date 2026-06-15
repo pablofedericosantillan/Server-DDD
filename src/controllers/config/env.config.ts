@@ -1,22 +1,17 @@
 import { Type } from 'class-transformer';
-import {
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsEnum, IsInt, ValidateNested } from 'class-validator';
 import { CorsConfig } from './cors/cors.config';
+import { MongoConfig } from 'src/infrastructure/mongo/mongo-env.config';
 
 export enum NodeEnv {
-  Development = 'develop',
+  DEVELOP = 'develop',
 }
 
 export class EnvConfig {
   appName = 'Proyect test';
 
   @IsEnum(NodeEnv)
-  env: NodeEnv = (process.env.NODE_ENV as NodeEnv) ?? NodeEnv.Development;
+  env: NodeEnv = (process.env.NODE_ENV as NodeEnv) ?? NodeEnv.DEVELOP;
 
   @Type(() => Number)
   @IsInt()
@@ -26,7 +21,7 @@ export class EnvConfig {
   @ValidateNested()
   cors: CorsConfig = new CorsConfig();
 
-  @IsNotEmpty()
-  @IsString()
-  MONGO_URI: string = process.env.MONGO_URI;
+  @Type(() => MongoConfig)
+  @ValidateNested()
+  mongoConfig = new MongoConfig();
 }

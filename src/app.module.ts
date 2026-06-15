@@ -3,14 +3,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LoggerModule } from './shared';
 import { ApplicationModule } from './application';
-import {
-  ConfigModule,
-  ConfigService,
-  createMongooseOptions,
-} from './infrastructure/config';
+import { ConfigModule, ConfigService } from './controllers/config';
+import { createMongooseOptions } from './infrastructure/mongo/mongo.config';
 // Controllers Modules
-import { HealthModule } from './transport/health/health.module';
-import { UserControllerModule } from './transport/users/users.module';
+import { HealthModule } from './controllers/health/health.module';
+import { UserControllerModule } from './controllers/users/users.module';
 
 @Module({
   imports: [

@@ -1,6 +1,3 @@
 export * from './config.module';
 export * from './config.service';
-export * from './config.dto';
-
-// Envs
-export * from './mongo';
+export * from './env.config';
